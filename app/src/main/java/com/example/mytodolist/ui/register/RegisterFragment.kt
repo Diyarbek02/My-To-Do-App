@@ -58,7 +58,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                             Snackbar.make(btnRegister, it.message.toString(), Snackbar.LENGTH_SHORT)
                                 .show()
                         }
-
                     }
                 }
             }

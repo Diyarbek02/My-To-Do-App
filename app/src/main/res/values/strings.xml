@@ -14,5 +14,6 @@
     <string name="email">Email</string>
     <string name="et_login">Login</string>
     <string name="et_register">Register</string>
+    <string name="item_tasks">Item tasks</string>
 
 </resources>

@@ -59,7 +59,6 @@ class UpdateFragment : Fragment(R.layout.fragment_update) {
                         }
                     }
                 }
-
             }
         }
     }

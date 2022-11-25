@@ -31,10 +31,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
 
             btnLogin.setOnClickListener {
-                navController.navigate(R.id.action_loginFragment_to_registerFragment)
-            }
-
-            btnLogin.setOnClickListener {
                 val email = etEmail.text.toString()
                 val password = etPassword.text.toString()
 
@@ -66,7 +62,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         }
                     }
                 }
-
             }
         }
     }
