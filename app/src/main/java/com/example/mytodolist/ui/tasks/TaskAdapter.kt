@@ -10,8 +10,7 @@ import com.example.mytodolist.data.models.request.Completed
 import com.example.mytodolist.data.models.request.Data
 import com.example.mytodolist.databinding.ItemTaskBinding
 
-class TaskAdapter(private val listener: onItemClickListener) :
-    RecyclerView.Adapter<TaskAdapter.VH>() {
+class TaskAdapter : RecyclerView.Adapter<TaskAdapter.VH>() {
     var model: MutableList<Data> = mutableListOf()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
@@ -49,19 +48,19 @@ class TaskAdapter(private val listener: onItemClickListener) :
             }
 
             root.setOnClickListener {
-                listener.onItemClick(task)
+                onItemClick.invoke(task)
             }
         }
     }
 
     override fun getItemCount(): Int = model.size
 
-    interface onItemClickListener {
-        fun onItemClick(task: Data)
-        fun onCheckBoxClick(task: Data, isChecked: Completed)
+    var onItemClick: (Data) -> Unit = {}
+    fun onItemClick(onItemClick: (Data) -> Unit) {
+        this.onItemClick = onItemClick
     }
 
-    private var onClick: (data: Data, position: Int) -> Unit = { soz, position -> }
+    private var onClick: (data: Data, position: Int) -> Unit = { str, position -> }
     fun removeItemClick(itemClick: (data: Data, position: Int) -> Unit) {
         this.onClick = itemClick
     }

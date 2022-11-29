@@ -70,14 +70,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:visibility="gone"
-            />
+
+
 
         <Button
             android:id="@+id/btn_register"
@@ -90,6 +84,18 @@
             android:layout_centerInParent="true"
             android:textColor="@android:color/white"
             android:text="@string/register"/>
+
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:translationZ="3dp"
+            android:visibility="gone"
+            />
 
     </RelativeLayout>
 

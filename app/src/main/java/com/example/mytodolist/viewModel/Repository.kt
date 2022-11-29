@@ -2,11 +2,15 @@ package com.example.mytodolist.viewModel
 
 import com.example.mytodolist.data.models.request.Completed
 import com.example.mytodolist.data.models.request.Description
+import com.example.mytodolist.data.models.request.Login
 import com.example.mytodolist.data.models.request.Register
 import com.example.mytodolist.data.retrofit.ApiService
 import javax.inject.Inject
+import kotlin.math.log
 
 class Repository @Inject constructor(private val apiService: ApiService) {
+    suspend fun login(login: Login) = apiService.login(login)
+
     suspend fun registerUser(user: Register) = apiService.registerUser(user)
 
     suspend fun addTask(token: String, description: Description) =
@@ -18,4 +22,5 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         apiService.updateTaskById(id, token, completed)
 
     suspend fun deleteTaskById(id: String, token: String) = apiService.deleteTaskById(id, token)
-}
+
+    }

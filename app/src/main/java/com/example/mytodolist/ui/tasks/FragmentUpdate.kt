@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.mytodolist.R
@@ -14,12 +13,13 @@ import com.example.mytodolist.data.models.request.Completed
 import com.example.mytodolist.databinding.FragmentUpdateBinding
 import com.example.mytodolist.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @AndroidEntryPoint
 class FragmentUpdate: Fragment(R.layout.fragment_update) {
     private lateinit var binding: FragmentUpdateBinding
-    private val viewModel: MainViewModel by viewModels()
-    val args: FragmentUpdateArgs by navArgs()
+    private val updateViewModelFragment: UpdateViewModelFragment by viewModel()
+    private val args: FragmentUpdateArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,10 +28,10 @@ class FragmentUpdate: Fragment(R.layout.fragment_update) {
         binding.apply {
             val update = args.task.description
             Log.d("TTT","----> $update")
-            btnUpdate.setText(update)
+            btnUpdate.text = update
 
             btnUpdate.setOnClickListener {
-                viewModel.updateTaskById("${args.task.id}","${Constants.TOKEN}", Completed(true))
+                updateViewModelFragment.updateTaskById(args.task.id, Constants.TOKEN, Completed(true))
                 findNavController().navigate(R.id.action_fragmentUpdate_to_fragmentTask)
             }
         }

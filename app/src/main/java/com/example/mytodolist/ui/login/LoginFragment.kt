@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.mytodolist.R
+import com.example.mytodolist.core.Constants
+import com.example.mytodolist.core.Constants.TOKEN
 import com.example.mytodolist.core.NetworkResult
 import com.example.mytodolist.core.loginRequest
 import com.example.mytodolist.databinding.FragmentLoginBinding
@@ -52,6 +54,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                                 "Login Successful!",
                                 Toast.LENGTH_SHORT
                             ).show()
+                            TOKEN = it.data?.token ?: ""
                             navController.navigate(R.id.action_loginFragment_to_fragmentTask)
                         }
 

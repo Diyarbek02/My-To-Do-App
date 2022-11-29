@@ -58,6 +58,7 @@ dependencies {
         retrofit_version = "2.9.0"
         coroutines_version = "1.6.4"
         lifecycle_version = "2.5.1"
+        koin_android_version= "3.3.0"
     }
 
     // Jetpack Navigation Component
@@ -82,4 +83,13 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+    // Koin main features for Android
+    implementation "io.insert-koin:koin-android:$koin_android_version"
+// Java Compatibility
+    implementation "io.insert-koin:koin-android-compat:$koin_android_version"
+// Jetpack WorkManager
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin_android_version"
+// Navigation Graph
+    implementation "io.insert-koin:koin-androidx-navigation:$koin_android_version"
 }

@@ -15,22 +15,22 @@ import com.example.mytodolist.core.Constants.TOKEN
 import com.example.mytodolist.core.NetworkResult
 import com.example.mytodolist.data.models.request.Register
 import com.example.mytodolist.databinding.FragmentRegisterBinding
+import com.example.mytodolist.ui.tasks.RegisterViewModelFragment
 import com.example.mytodolist.viewModel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment(R.layout.fragment_register) {
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var navController: NavController
-    private val viewModel: MainViewModel by viewModels()
-    private lateinit var sharedPreferences: SharedPreferences
+    private val registerViewModelFragment: RegisterViewModelFragment by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRegisterBinding.bind(view)
         navController = findNavController()
-        sharedPreferences = requireActivity().getSharedPreferences("shared", Context.MODE_PRIVATE)
 
         binding.apply {
 
@@ -40,9 +40,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 val name = etName.text.toString()
 
                 val user = Register(name, phone, password)
-                viewModel.registerUser(user)
 
-                viewModel.registerUser.observe(viewLifecycleOwner) {
+                registerViewModelFragment.registerUser(user)
+                registerViewModelFragment.registerUser.observe(viewLifecycleOwner) {
                     when (it) {
                         is NetworkResult.Loading -> {
                             setLoading(true)
@@ -56,7 +56,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                                 Toast.LENGTH_SHORT
                             )
                                 .show()
-                            TOKEN = it.data?.token ?: ""
+                            TOKEN = it.data!!.token
                             navController.navigate(R.id.action_registerFragment_to_fragmentTask)
                         }
 

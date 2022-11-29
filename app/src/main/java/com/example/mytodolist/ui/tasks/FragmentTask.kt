@@ -5,65 +5,58 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mytodolist.R
-import com.example.mytodolist.core.Constants
 import com.example.mytodolist.core.Constants.TOKEN
 import com.example.mytodolist.core.NetworkResult
 import com.example.mytodolist.data.models.request.Completed
 import com.example.mytodolist.data.models.request.Data
 import com.example.mytodolist.databinding.FragmentTaskBinding
-import com.example.mytodolist.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
-class FragmentTask : Fragment(R.layout.fragment_task), TaskAdapter.onItemClickListener {
+class FragmentTask : Fragment(R.layout.fragment_task){
     private lateinit var binding: FragmentTaskBinding
     private lateinit var navController: NavController
-    private val taskAdapter = TaskAdapter(this)
-    private val viewModel: MainViewModel by viewModels()
+    private val taskAdapter = TaskAdapter by inject()
+    private val taskViewModelFragment: TaskViewModelFragment by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentTaskBinding.bind(view)
         navController = findNavController()
 
+        initRec()
+
         binding.apply {
             addTask.setOnClickListener {
-                navController.navigate(R.id.action_fragmentTask_to_fragmentAddTask)
+                findNavController().navigate(R.id.action_fragmentTask_to_fragmentAddTask)
             }
         }
-
-        viewModel.getAllTask.observe(requireActivity()) {
-            when (it) {
+        taskViewModelFragment.getAllTask.observe(requireActivity()) { result ->
+            when (result) {
                 is NetworkResult.Loading -> {
 
                 }
-
                 is NetworkResult.Success -> {
-                    taskAdapter.model = it.data?.data ?: mutableListOf()
+                    taskAdapter.model = result.data?.data ?: mutableListOf()
                 }
                 is NetworkResult.Error -> {
                     Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                 }
-
             }
-            Log.d("UUU", "---> ${Constants.TOKEN}")
 
-            viewModel.getAllTask("${Constants.TOKEN}")
+            Log.d("UUU", "---> $TOKEN")
 
-            binding.apply {
-                addTask.setOnClickListener {
-                    findNavController().navigate(R.id.action_fragmentTask_to_fragmentAddTask)
-                }
-            }
+            taskViewModelFragment.getAllTask(TOKEN)
+
             taskAdapter.removeItemClick { data, position ->
-                viewModel.deleteTaskById("${data.id}", "${Constants.TOKEN}")
-                viewModel.deleteTaskById.observe(requireActivity()) {
-                    when (it) {
+                taskViewModelFragment.deleteTaskById(data.id, TOKEN)
+                taskViewModelFragment.deleteTaskById.observe(requireActivity()) { result ->
+                    when (result) {
                         is NetworkResult.Success -> {
                             Toast.makeText(requireContext(), "Task Deleted", Toast.LENGTH_SHORT)
                                 .show()
@@ -78,14 +71,14 @@ class FragmentTask : Fragment(R.layout.fragment_task), TaskAdapter.onItemClickLi
                 }
                 taskAdapter.removeItem(position)
             }
-            taskAdapter.setOnCheckboxClickListener {
-                viewModel.updateTaskById(it.id, "Bearer $TOKEN", Completed(true))
+            taskAdapter.setOnCheckboxClickListener { data ->
+                taskViewModelFragment.updateTaskById(data.id, "Bearer $TOKEN", Completed(true))
 
-                viewModel.updataTaskById.observe(requireActivity()) {
+                taskViewModelFragment.updataTaskById.observe(requireActivity()) {
                     when (it) {
                         is NetworkResult.Success -> {
                             Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
-                            viewModel.getAllTask("Bearer $TOKEN")
+                            taskViewModelFragment.getAllTask("Bearer $TOKEN")
                         }
                         is NetworkResult.Error -> {
                             Toast.makeText(
@@ -101,6 +94,10 @@ class FragmentTask : Fragment(R.layout.fragment_task), TaskAdapter.onItemClickLi
                 }
             }
         }
+        taskAdapter.onItemClick {
+            val action = HomeFragmentDirections.actionHomeFragmentToUpdateFragment(it)
+            findNavController().navigate(action)
+        }z
     }
 
     private fun initRec() {
@@ -117,14 +114,5 @@ class FragmentTask : Fragment(R.layout.fragment_task), TaskAdapter.onItemClickLi
                 )
             )
         }
-    }
-
-    override fun onItemClick(task: Data) {
-        val action = FragmentTaskDirections.actionFragmentTaskToFragmentUpdate(task)
-        findNavController().navigate(action)
-    }
-
-    override fun onCheckBoxClick(task: Data, isChecked: Completed) {
-        TODO("Not yet implemented")
     }
 }
