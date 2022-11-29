@@ -5,20 +5,21 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.mytodolist.R
-import com.example.mytodolist.core.Constants.TOKEN
 import com.example.mytodolist.core.NetworkResult
 import com.example.mytodolist.core.loginRequest
 import com.example.mytodolist.databinding.FragmentLoginBinding
-import com.example.mytodolist.ui.MainViewModel
-import com.google.android.material.snackbar.Snackbar
+import com.example.mytodolist.viewModel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var navController: NavController
-    private val viewModel by lazy { MainViewModel() }
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,7 +32,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
 
             btnLogin.setOnClickListener {
-                val email = etEmail.text.toString()
+                val email = etPhone.text.toString()
                 val password = etPassword.text.toString()
 
                 val loginUser = loginRequest(email, password)
@@ -51,14 +52,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                                 "Login Successful!",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            TOKEN = it.data?.token ?: ""
-                            navController.navigate(R.id.action_loginFragment_to_meFragment)
+                            navController.navigate(R.id.action_loginFragment_to_fragmentTask)
                         }
 
                         is NetworkResult.Error -> {
                             setLoading(false)
-                            Snackbar.make(btnLogin, it.message.toString(), Snackbar.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Failed authorization!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }

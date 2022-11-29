@@ -41,15 +41,15 @@
         android:textSize="15sp" />
 
     <EditText
-        android:id="@+id/et_email"
+        android:id="@+id/et_phone"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="@string/e_mail"
+        android:hint="Phone"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
         android:padding="15dp"
-        android:inputType="textEmailAddress"
+        android:inputType="phone"
         android:background="@drawable/et_custom"
         android:textSize="15sp" />
 
