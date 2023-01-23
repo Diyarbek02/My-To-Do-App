@@ -28,7 +28,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
         binding.splash.playAnimation()
 
         lifecycleScope.launchWhenResumed {
-            delay(2000)
+            delay(3000)
             visibilityProgressBar.emit(true)
             if (localStorage.isRegistered) {
                navController.navigate(SplashScreenFragmentDirections.actionSplashScreenFragmentToFragmentTask())
