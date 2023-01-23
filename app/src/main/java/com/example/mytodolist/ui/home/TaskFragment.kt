@@ -26,6 +26,9 @@ class TaskFragment : Fragment(R.layout.fragment_task) {
     private val navController by lazy(LazyThreadSafetyMode.NONE) { findNavController() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        lifecycleScope.launchWhenResumed {
+            viewModel.getAllTasks()
+        }
         initAdapters()
         initObservers()
         binding.addTask.setOnClickListener {
