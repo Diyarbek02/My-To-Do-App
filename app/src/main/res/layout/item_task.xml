@@ -7,14 +7,14 @@
 
     <TextView
         android:id="@+id/item_task"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:padding="15dp"
-        android:background="@drawable/et_custom"
-        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:text="Item Tasks"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -22,11 +22,11 @@
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:checked="false"
+        app:layout_constraintEnd_toStartOf="@id/iv_delete"
+        android:layout_marginEnd="8dp"
         app:layout_constraintTop_toTopOf="@id/item_task"
         app:layout_constraintBottom_toBottomOf="@id/item_task"
-        android:layout_marginEnd="12dp"
-        app:layout_constraintEnd_toStartOf="@id/iv_delete"
-        android:checked="false"
         />
 
     <ImageView
@@ -34,9 +34,9 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/delete"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/item_task"
         app:layout_constraintBottom_toBottomOf="@id/item_task"
-        app:layout_constraintEnd_toEndOf="@id/item_task"
         android:layout_marginEnd="12dp"
         />
 

@@ -24,7 +24,7 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/tv_task"
-        tools:layout_editor_absoluteX="42dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_task" />
 
     <ImageView
